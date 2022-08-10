@@ -26,6 +26,9 @@ public class RBtree {
 		int getValue() {
 			return value;
 		}
+		void setValue(int value) {
+			this.value = value;
+		}
 		String getColor() {
 			return color == RED ? "RED" : "BLACK";
 		}
@@ -88,6 +91,121 @@ public class RBtree {
 			recolorTree(node);
 		}
 		System.out.println("Inserted " + node.getValue());
+	}
+	
+	public static Node deleteNode(Node node) {
+		Node y;
+		Node x;
+		if(node.left == null || node.right == null) {
+			y = node;
+		}else {
+			Node removeNode = root;
+			
+			while(removeNode.getValue() != node.getValue()) {
+				if(removeNode.getValue() > node.getValue()) {
+					removeNode = removeNode.left;
+				}else {
+					removeNode = removeNode.right;
+				}
+				
+				if(removeNode == null) {
+					return null;
+				}
+			}
+			y = removeNode;
+		}
+		
+		if(y.left != null) {
+			x = y.left;
+		}else {
+			x = y.right;
+		}
+		
+		if(x != null) {
+			x.parent = y.parent;
+		}
+		if(y.parent == null) {
+			root = x;
+		}else if(y == y.parent.left) {
+			y.parent.left = x;
+		}else {
+			y.parent.right = x;
+		}
+		
+		if(y != node) {
+			if("BLACK".equals(y.getColor())) {
+				node.setColor(BLACK);
+			}else {
+				node.setColor(RED);
+			}
+			node.setValue(y.getValue());
+		}
+		
+		if("BLACK".equals(y.getColor())) {
+			deleteRecolorTree(x);
+		}
+		
+		return y;
+	}
+	
+	private static void deleteRecolorTree(Node node) {
+		while(node != root && "BLACK".equals(node.getColor())) {
+			Node w = null;
+			if(node == node.parent.left) {
+				w = node.parent.right;
+				if("RED".equals(w.getColor())){
+					w.setColor(BLACK);
+					node.parent.setColor(RED);
+					rotateLeft(node.parent);
+					w = node.parent.right;
+				}
+				if("BLACK".equals(w.left.getColor()) && "BLACK".equals(w.right.getColor())) {
+					w.setColor(RED);
+					node = node.parent;
+				} else if("BLACK".equals(w.right.getColor())) {
+					w.left.setColor(BLACK);
+					w.setColor(RED);
+					rotateRight(w);
+					w = node.parent.right;
+				}
+				if("BLACK".equals(node.parent.getColor())) {
+					w.setColor(BLACK);
+				}else {
+					w.setColor(RED);
+				}
+				node.parent.setColor(BLACK);
+				w.right.setColor(BLACK);
+				rotateLeft(node.parent);
+				node = root;
+			}else {
+				w = node.parent.left;
+				if("RED".equals(w.getColor())){
+					w.setColor(BLACK);
+					node.parent.setColor(RED);
+					rotateRight(node.parent);
+					w = node.parent.left;
+				}
+				if("BLACK".equals(w.left.getColor()) && "BLACK".equals(w.right.getColor())) {
+					w.setColor(RED);
+					node = node.parent;
+				}else if("BLACK".equals(w.right.getColor())) {
+					w.left.setColor(BLACK);
+					w.setColor(RED);
+					rotateLeft(w);
+					w = node.parent.left;
+				}
+				if("BLACK".equals(node.parent.getColor())) {
+					w.setColor(BLACK);
+				}else {
+					w.setColor(RED);
+				}
+				node.parent.setColor(BLACK);
+				w.left.setColor(BLACK);
+				rotateRight(node.parent);
+				node = root;
+			}
+		}
+		node.setColor(BLACK);
 	}
 	
 	private static void recolorTree(Node node) {
@@ -190,17 +308,30 @@ public class RBtree {
 		// TODO Auto-generated method stub
 		root = null;
 		
-		insertNode(new Node(100));
-		insertNode(new Node(50));
-		insertNode(new Node(30));
-		insertNode(new Node(80));
-		insertNode(new Node(200));
-		insertNode(new Node(400));
-		insertNode(new Node(10));
-		insertNode(new Node(500));
-		insertNode(new Node(250));
-		insertNode(new Node(120));
-		
+		Node a = new Node(100);
+		Node b = new Node(50);
+		Node c = new Node(30);
+		Node d = new Node(80);
+		Node e = new Node(200);
+		Node f = new Node(400);
+		Node g = new Node(10);
+		Node h = new Node(500);
+		Node i = new Node(250);
+		Node j = new Node(120);
+		insertNode(a);
+		insertNode(b);
+		insertNode(c);
+		insertNode(d);
+		insertNode(e);
+		insertNode(f);
+		insertNode(g);
+		insertNode(h);
+		insertNode(i);
+		insertNode(j);
+
+		Node remove = deleteNode(g);
+		System.out.println(remove.getValue());
+
 		System.out.println();
 		printTree(root);
 	}
