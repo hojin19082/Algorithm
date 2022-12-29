@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class NO2293 {
-
+	//n개의 종류 동전을 가지고 k원을 만들 수 있는 경우의 수 구하기
 	private static int dp[];
 	private static int arr[];
 	public static void main(String[] args) throws IOException{
