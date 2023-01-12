@@ -7,9 +7,7 @@ public class NO1012 {
 
 	private static int map[][];
 	private static boolean visited[][];
-	private static int M, N, cnt;
-	private static int[] dx = { 0, -1, 0, 1 };
-	private static int[] dy = { 1, 0, -1, 0 };
+	private static int M, N;
 	public static void main(String[] args) throws IOException{
 		// TODO Auto-generated method stub
 
@@ -52,17 +50,13 @@ public class NO1012 {
 		}
 	}
 	public static void dfs(int x, int y) {
-		visited[x][y] = true;
-		for (int i = 0; i < 4; i++) {
-			int cx = x + dx[i];
-			int cy = y + dy[i];
-
-			if (cx >= 0 && cy >= 0 && cx < M && cy < N) {
-				if (!visited[cx][cy] && map[cx][cy] == 1) {
-					dfs(cx, cy);
-				}
+		if((x>=0 && y>=0) && (x<M && y<N) && (map[x][y] == 1 && visited[x][y] == false)) {
+			visited[x][y] = true;
+			//»óÇÏÁÂ¿ì ¼ø
+			dfs(x-1, y);
+			dfs(x+1, y);
+			dfs(x, y-1);
+			dfs(x, y+1);
 			}
-
-		}
 	}
 }
