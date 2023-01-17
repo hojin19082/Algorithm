@@ -56,7 +56,6 @@ public class NO2108 {
 		System.out.println(mode);
 		System.out.println(arr2[T-1]-arr2[0]);
 		
-
 	}
 
 }
