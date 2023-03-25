@@ -25,7 +25,7 @@ public class 치킨배달 {
 			st = new StringTokenizer(br.readLine());
 			for(int j=0; j<N; j++) {
 				map[i][j] = Integer.parseInt(st.nextToken());
-				
+				 
 				if(map[i][j] == 1) {
 					home.add(new point(i,j));
 				}else if(map[i][j] == 2) {
